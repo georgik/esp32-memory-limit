@@ -4,7 +4,7 @@
     "author": "Juraj Michálek <juraj.michalek@espressif.com>",
     "parts": [
         {
-            "type": "",
+            "type": "board-esp32-c3-devkitm-1",
             "id": "esp",
             "top": 0.59,
             "left": 0.67,
