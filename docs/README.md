@@ -206,3 +206,14 @@ PC=0x403801aa         RA/x1=0x40380060      SP/x2=0x3fc81e6c      GP/x3=0x3fcb8e
 0x403801aa - _start_trap_rust_hal
 ```
 
+### 12-alloc-stack-overflow-protection
+- Allocator and stack with stack overflow protection
+- Run `cargo run --example 12-alloc-stack-overflow-protection`
+- Debug result: - Debug assist didn't fire
+```
+INFO - Safe stack 12328 bytes
+INFO - Depth: 1, Stack usage: 1024 bytes, Heap allocation: 1024, Memory - used: 1024; free: 306176
+...
+INFO - Depth: 109, Stack usage: 111616 bytes, Heap allocation: 1024, Memory - used: 111616; free: 195584
+Exception 'Store/AMO access fault' mepc=0x42020316, mtval=0x00000001
+```
