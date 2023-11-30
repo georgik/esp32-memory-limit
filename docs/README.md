@@ -84,3 +84,30 @@ INFO - Depth: 217, Stack usage: 222208 bytes
 INFO - Depth: 218Exception 'Load access fault' mepc=0x40380d22, mtval=0x00000125
 0x40380d22 - esp_hal_common::interrupt::riscv::vectored::handle_interrupt
 ```
+
+### 08-alloc-stack
+- Allocator + Stack recursion
+- Run `cargo run --example 08-alloc-stack`
+- Result: unresponsive board, requires Boot + Reset button for the next flash
+```
+INFO - Stack depth: 218, usage: 223232 bytes
+INFO - Stack depth: 219, usage: 224256 bytes
+```
+
+### 09-allock-stack-recursion
+- Allocator recursion wit Stack recursion
+- Run `cargo run --example 09-alloc-stack-recursion`
+- Result:
+```
+
+INFO - Depth: 2, Stack usage: 2048 bytes, Heap allocation: 2048 bytes
+INFO - Depth: 3, Stack usage: 3072 bytes, Heap allocation: 3072 bytes
+
+
+!! A panic occured in '.../.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/alloc/src/alloc.rs', at line 418, column 13
+
+PanicInfo {
+    payload: Any { .. },
+    message: Some(
+        memory allocation of 16384 bytes failed,
+```
