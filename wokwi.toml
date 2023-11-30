@@ -8,5 +8,8 @@ gdbServerPort = 3333
 # elf = "target/riscv32imac-unknown-none-elf/debug/examples/01-alloc"
 # firmware = "target/riscv32imac-unknown-none-elf/debug/examples/01-alloc"
 
-elf = "target/riscv32imac-unknown-none-elf/debug/examples/02-check-before-alloc"
-firmware = "target/riscv32imac-unknown-none-elf/debug/examples/02-check-before-alloc"
+# elf = "target/riscv32imac-unknown-none-elf/debug/examples/02-check-before-alloc"
+# firmware = "target/riscv32imac-unknown-none-elf/debug/examples/02-check-before-alloc"
+
+elf = "target/riscv32imac-unknown-none-elf/debug/examples/04-stack"
+firmware = "target/riscv32imac-unknown-none-elf/debug/examples/04-stack"

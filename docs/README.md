@@ -4,7 +4,8 @@ Validate what happens in case of Out of Memory.
 
 ## Scenarios
 
-Method 1: Alloc without check
+### 01-alloc
+- Allocation of memory  without check
 - Run: `cargo run --release --example 01-alloc`
 - Result: Panic with trace
 ```
@@ -28,8 +29,19 @@ PanicInfo {
 }
 ```
 
-Method 2: Check free space before allocation
+### 02-check-before-alloc
+- Check free space before allocation
 - Run: `cargo run --example 02-check-before-alloc`
 - Result: Possibility to handle error
 - Output message: `Not enough memory to allocate`
 
+### 03-try-reserve
+- Use try_reserve to acquire memory
+- Run: `cargo run --example 03-try-reserve`
+- Result: **WARN** Problem detected - memory is not returned back when variable leaves the scope
+- Output message: `Not enough memory to allocate`
+
+### 04-stack
+- Allocated 1KB recursively
+- run: `cargo run --example 04-stack`
+- Result: **WARN** Problem detected - chip freezes when reaching `Depth: 219, Stack usage: 224256 bytes`
