@@ -38,14 +38,13 @@ fn main() -> ! {
 
     esp_println::logger::init_logger_from_env();
     log::info!("Logger is setup");
-    log::info!("Used memory: {}; Free memory: {}", ALLOCATOR.used(), ALLOCATOR.free());
+    log::info!("Memory - used: {}; free: {}", ALLOCATOR.used(), ALLOCATOR.free());
 
     let mut allocation_size = 1024; // Start with 1 KB
 
     loop {
         if let Some(mut test_vec) = try_allocate(allocation_size) {
-            log::info!("Allocated {} bytes", allocation_size);
-            log::info!("Used memory: {}; Free memory: {}", ALLOCATOR.used(), ALLOCATOR.free());
+            log::info!("Memory - allocated: {}, used: {}; free: {}", allocation_size, ALLOCATOR.used(), ALLOCATOR.free());
 
             if !test_vec.is_empty() {
                 test_vec[0] = 1; // Access the array to ensure it's not optimized out
