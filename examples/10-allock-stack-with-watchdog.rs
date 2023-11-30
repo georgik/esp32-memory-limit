@@ -33,7 +33,7 @@ fn main() -> ! {
     let timer_group0 = TimerGroup::new(peripherals.TIMG0, &clocks);
     let mut wdt0 = timer_group0.wdt;
 
-    wdt0.start(10u64.secs());
+    wdt0.start(25u64.secs());
 
     esp_println::logger::init_logger_from_env();
     info!("Memory - used: {}; free: {}", ALLOCATOR.used(), ALLOCATOR.free());
@@ -64,7 +64,7 @@ fn main() -> ! {
 fn recursive_stack_allocation(depth: usize) {
     let stack_data = [0u8; 1024];
 
-    if depth > 1000 {
+    if depth > 10000 {
         return; // Limit recursion depth to prevent stack overflow
     }
 

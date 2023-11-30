@@ -6,8 +6,8 @@ Validate what happens in case of Out of Memory.
 
 ### 01-alloc
 - Allocation of memory  without check
-- Run: `cargo run --release --example 01-alloc`
-- Result: Panic with trace
+- Run: `cargo run --example 01-alloc`
+- Debug and release results: Panic with trace
 ```
 INFO - Used memory: 32768; Free memory: 0
 
@@ -32,25 +32,32 @@ PanicInfo {
 ### 02-check-before-alloc
 - Check free space before allocation
 - Run: `cargo run --example 02-check-before-alloc`
-- Result: Possibility to handle error
+- Debug and release result: Possibility to handle error
 - Output message: `Not enough memory to allocate`
 
 ### 03-try-reserve
 - Use try_reserve to acquire memory
 - Run: `cargo run --example 03-try-reserve`
-- Result: Possibility to handle error
+- Debug and release result: Possibility to handle error
 - Output message: `Not enough memory to allocate`
 
 ### 04-stack
 - Allocated 1KB recursively
 - Run: `cargo run --example 04-stack`
-- Result: **WARN** Problem detected - chip freezes when reaching `Depth: 219, Stack usage: 224256 bytes`
+- Debug result: **WARN** Problem detected - chip freezes, board remains responsive
+```
+Depth: 219, Stack usage: 224256 bytes
+```
+- Release result: chip freezes, board remains responsive
+```
+INFO - Depth: 3998, Stack usage: 4093952 bytes
+```
 
 
 ### 05-4kb-stack-overflow-protection-1kb-alloc
 - 4 kB stack overflow protection with 1 kB allocation
 - Run `cargo run --example 05-4kb-stack-overflow-protection-1kb-alloc`
-- Result:
+- Debug result:
 ```
 INFO - Depth: 214, Stack usage: 219136 bytes
 INFO - Depth: 215, Stack usage: 220160 bytes
@@ -60,11 +67,20 @@ Possible Stack Overflow Detected
 INFO - PC = 0x420266ec
 0x420266ec - core::cmp::impls::<impl core::cmp::Ord for usize>::cmp
 ```
+- Release result:
+```
+INFO - Depth: 3932, Stack usage: 4026368 bytes
+INFO - Depth: ERROR -
+
+Possible Stack Overflow Detected
+INFO - PC = 0x420041a4
+0x420041a4 - _ZN4core3fmt9Formatter12pad_integral12write_prefix17h93e2f5ddd6e48c4aE
+```
 
 ### 06-2kb-stack-overflow-protection-1kb-alloc
 - 2 kB stack overflow protection with 1 kB allocation
-- Run `cargo run --example 06-2kb-stack-overflow-protection-1kb-alloc.rs`
-- Result:
+- Run `cargo run --example 06-2kb-stack-overflow-protection-1kb-alloc`
+- Debug result:
 ```
 INFO - Depth: 216, Stack usage: 221184 bytes
 INFO - Depth: 217ERROR -
@@ -74,30 +90,54 @@ Possible Stack Overflow Detected
 
 !! A panic occured in 'examples/06-4kb-stack-overflow-protection-512b-alloc.rs', at line 71, column 25
 ```
+- Release result:
+```
+INFO - Depth: 3964, Stack usage: 4059136 bytes
+INFO - Depth: ERROR -
+
+Possible Stack Overflow Detected
+INFO - PC = 0x420041a2
+0x420041a2 - _ZN4core3fmt9Formatter12pad_integral12write_prefix17h93e2f5ddd6e48c4aE
+```
 
 ### 07-1kb-stack-overflow-protection-1kb-alloc
 - 1 kB stack overflow protection with 1 kB allocation
 - Run `cargo run --example 07-1kb-stack-overflow-protection-1kb-alloc`
-- Result:
+- Debug result:
 ```
 INFO - Depth: 217, Stack usage: 222208 bytes
 INFO - Depth: 218Exception 'Load access fault' mepc=0x40380d22, mtval=0x00000125
 0x40380d22 - esp_hal_common::interrupt::riscv::vectored::handle_interrupt
 ```
+- Release result:
+```
+INFO - Depth: 3980, Stack usage: 4075520 bytes
+INFO - Depth: ERROR -
+
+Possible Stack Overflow Detected
+
+
+!! A panic occured in 'examples/07-1kb-stack-overflow-protection-1kb-alloc.rs', at line 71, column 25
+```
 
 ### 08-alloc-stack
 - Allocator + Stack recursion
 - Run `cargo run --example 08-alloc-stack`
-- Result: unresponsive board, requires Boot + Reset button for the next flash
+- Debug result: unresponsive board, requires Boot + Reset button for the next flash
 ```
 INFO - Stack depth: 218, usage: 223232 bytes
 INFO - Stack depth: 219, usage: 224256 bytes
+```
+- Release result: unresponsive board, requires Boot + Reset button for the next flash, it even closed the connection
+```
+INFO - Stack depth: 3996, usage: 4091904 bytes
+Error:   × Broken pipe
 ```
 
 ### 09-allock-stack-recursion
 - Allocator recursion wit Stack recursion
 - Run `cargo run --example 09-alloc-stack-recursion`
-- Result:
+- Debug and release results:
 ```
 
 INFO - Depth: 2, Stack usage: 2048 bytes, Heap allocation: 2048 bytes
@@ -115,8 +155,13 @@ PanicInfo {
 ### 10-allock-stack-with-watchdog
 - Allocator + Stack recursion + 10 seconds watchdog
 - Run `cargo run --example 10-allock-stack-with-watchdog`
-- Result: unresponsive board for short period of time until watchdog restarts it
+- Debug result: unresponsive board for short period of time until watchdog restarts it
 ```
 INFO - Stack depth: 219, usage: 224256 bytes
+Error:   × Broken pipe
+```
+- Release result: unresponsive board for short period of time until watchdog restarts it
+```
+INFO - Stack depth: 3996, usage: 4091904 bytes
 Error:   × Broken pipe
 ```

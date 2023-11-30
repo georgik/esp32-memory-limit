@@ -59,7 +59,7 @@ fn main() -> ! {
 fn recursive_stack_allocation(depth: usize) {
     let stack_data = [0u8; 1024];
 
-    if depth > 1000 {
+    if depth > 10000 {
         return; // Limit recursion depth to prevent stack overflow
     }
 
