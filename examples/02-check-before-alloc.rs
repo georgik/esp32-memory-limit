@@ -3,7 +3,7 @@
 
 extern crate alloc;
 use core::mem::MaybeUninit;
-use alloc::vec;
+use alloc::{vec, vec::Vec};
 use esp_backtrace as _;
 use hal::{clock::ClockControl, peripherals::Peripherals, prelude::*, Delay};
 
@@ -18,7 +18,7 @@ fn init_heap() {
         ALLOCATOR.init(HEAP.as_mut_ptr() as *mut u8, HEAP_SIZE);
     }
 }
-use alloc::vec::Vec;
+
 fn try_allocate(size: usize) -> Option<Vec<u8>> {
     if ALLOCATOR.free() >= size {
         Some(vec![0u8; size])
@@ -39,15 +39,16 @@ fn main() -> ! {
     esp_println::logger::init_logger_from_env();
     log::info!("Logger is setup");
     log::info!("Used memory: {}; Free memory: {}", ALLOCATOR.used(), ALLOCATOR.free());
+
     let mut allocation_size = 1024; // Start with 1 KB
 
     loop {
-        if let Some(mut a) = try_allocate(allocation_size) {
+        if let Some(mut test_vec) = try_allocate(allocation_size) {
             log::info!("Allocated {} bytes", allocation_size);
             log::info!("Used memory: {}; Free memory: {}", ALLOCATOR.used(), ALLOCATOR.free());
 
-            if !a.is_empty() {
-                a[0] = 1; // Access the array to ensure it's not optimized out
+            if !test_vec.is_empty() {
+                test_vec[0] = 1; // Access the array to ensure it's not optimized out
             }
             allocation_size += 1024; // Increase the allocation size by 1 KB for the next iteration
         } else {
