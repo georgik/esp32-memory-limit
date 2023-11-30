@@ -134,7 +134,7 @@ INFO - Stack depth: 3996, usage: 4091904 bytes
 Error:   × Broken pipe
 ```
 
-### 09-allock-stack-recursion
+### 09-alloc-stack-recursion
 - Allocator recursion with Stack recursion
 - Run `cargo run --example 09-alloc-stack-recursion`
 - Debug result:
@@ -165,7 +165,7 @@ PanicInfo {
 
 ### 10-alloc-stack-with-watchdog
 - Allocator + Stack recursion + 10 seconds watchdog
-- Run `cargo run --example 10-allock-stack-with-watchdog`
+- Run `cargo run --example 10-alloc-stack-with-watchdog`
 - Debug result: unresponsive board for short period of time until watchdog restarts it
 ```
 INFO - Stack depth: 219, usage: 224256 bytes
