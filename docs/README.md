@@ -111,3 +111,12 @@ PanicInfo {
     message: Some(
         memory allocation of 16384 bytes failed,
 ```
+
+### 10-allock-stack-with-watchdog
+- Allocator + Stack recursion + 10 seconds watchdog
+- Run `cargo run --example 10-allock-stack-with-watchdog`
+- Result: unresponsive board for short period of time until watchdog restarts it
+```
+INFO - Stack depth: 219, usage: 224256 bytes
+Error:   × Broken pipe
+```
