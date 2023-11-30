@@ -54,6 +54,6 @@ fn main() -> ! {
             log::error!("Not enough memory to allocate {} bytes", allocation_size);
         }
 
-        delay.delay_ms(500u32);
+        delay.delay_ms(50u32);
     }
 }

@@ -43,7 +43,8 @@ fn main() -> ! {
     loop {
         let mut a = vec![0u8; allocation_size];
         a[0] = 1; // Access the array to ensure it's not optimized out
-
-        delay.delay_ms(500u32);
+        log::info!("Used memory: {}; Free memory: {}", ALLOCATOR.used(), ALLOCATOR.free());
+        allocation_size += 1024;
+        delay.delay_ms(50u32);
     }
 }
