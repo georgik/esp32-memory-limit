@@ -35,7 +35,7 @@ fn main() -> ! {
 
     loop {
         { // Create a new scope to ensure `test_vec` is dropped before we allocate again
-            let mut test_vec = Vec::new();
+            let mut test_vec:Vec<u8> = Vec::new();
 
             if test_vec.try_reserve(allocation_size).is_ok() {
                 test_vec.resize(allocation_size, 0); // Fill the newly allocated space

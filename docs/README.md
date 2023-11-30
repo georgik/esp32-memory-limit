@@ -38,7 +38,7 @@ PanicInfo {
 ### 03-try-reserve
 - Use try_reserve to acquire memory
 - Run: `cargo run --example 03-try-reserve`
-- Result: **WARN** Problem detected - memory is not returned back when variable leaves the scope
+- Result: Possibility to handle error
 - Output message: `Not enough memory to allocate`
 
 ### 04-stack
