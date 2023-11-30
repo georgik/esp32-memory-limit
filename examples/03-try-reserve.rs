@@ -7,6 +7,8 @@ use alloc::vec::Vec;
 use esp_backtrace as _;
 use hal::{clock::ClockControl, peripherals::Peripherals, prelude::*, Delay};
 
+use log::{error, info};
+
 #[global_allocator]
 static ALLOCATOR: esp_alloc::EspHeap = esp_alloc::EspHeap::empty();
 
@@ -29,7 +31,7 @@ fn main() -> ! {
     let mut delay = Delay::new(&clocks);
 
     esp_println::logger::init_logger_from_env();
-    log::info!("Logger is setup");
+    info!("Logger is setup");
 
     let mut allocation_size = 1024; // Start with 1 KB
 
@@ -38,12 +40,12 @@ fn main() -> ! {
 
         if test_vec.try_reserve(allocation_size).is_ok() {
             test_vec.resize(allocation_size, 0); // Fill the newly allocated space
-            log::info!("Memory - allocated: {}, used: {}; free: {}", allocation_size, ALLOCATOR.used(), ALLOCATOR.free());
+            info!("Memory - allocated: {}, used: {}; free: {}", allocation_size, ALLOCATOR.used(), ALLOCATOR.free());
             if !test_vec.is_empty() {
                 test_vec[0] = 1; // Access the array to ensure it's not optimized out
             }
         } else {
-            log::error!("Not enough memory to allocate {} more bytes", allocation_size);
+            error!("Not enough memory to allocate {} more bytes", allocation_size);
             // Handle allocation failure
         }
 

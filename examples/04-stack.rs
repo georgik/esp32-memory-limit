@@ -4,6 +4,8 @@
 use hal::{clock::ClockControl, peripherals::Peripherals, prelude::*, Delay};
 use esp_backtrace as _;
 
+use log::info;
+
 #[entry]
 fn main() -> ! {
     let peripherals = Peripherals::take();
@@ -27,7 +29,7 @@ fn recursive_stack_allocation(depth: usize) {
 
     // Use the data to prevent it from being optimized out
     if stack_data[0] == 0 {
-        log::info!("Depth: {}, Stack usage: {} bytes", depth, depth * 1024);
+        info!("Depth: {}, Stack usage: {} bytes", depth, depth * 1024);
     }
 
     // Recurse to the next depth
