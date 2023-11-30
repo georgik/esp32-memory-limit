@@ -13,7 +13,7 @@ use alloc::vec::Vec;
 static ALLOCATOR: esp_alloc::EspHeap = esp_alloc::EspHeap::empty();
 
 fn init_heap() {
-    const HEAP_SIZE: usize = 200 * 1024; // Define heap size
+    const HEAP_SIZE: usize = 300 * 1024; // Define heap size
     static mut HEAP: MaybeUninit<[u8; HEAP_SIZE]> = MaybeUninit::uninit();
 
     unsafe {

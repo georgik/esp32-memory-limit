@@ -135,24 +135,35 @@ Error:   × Broken pipe
 ```
 
 ### 09-allock-stack-recursion
-- Allocator recursion wit Stack recursion
+- Allocator recursion with Stack recursion
 - Run `cargo run --example 09-alloc-stack-recursion`
-- Debug and release results:
+- Debug result:
 ```
+INFO - Depth: 38, Stack usage: 38912 bytes, Heap allocation: 1024, Memory - used: 38912; free: 165888
+INFO - Depth: 39, Stack usage: 39936 bytes, Heap allocation: 1024, Memory - used: 39936; free: 1070074805
 
-INFO - Depth: 2, Stack usage: 2048 bytes, Heap allocation: 2048 bytes
-INFO - Depth: 3, Stack usage: 3072 bytes, Heap allocation: 3072 bytes
 
-
-!! A panic occured in '.../.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/alloc/src/alloc.rs', at line 418, column 13
+!! A panic occured in '/Users/georgik/.cargo/registry/src/index.crates.io-6f17d22bba15001f/esp-alloc-0.3.0/src/lib.rs', at line 77, column 18
 
 PanicInfo {
     payload: Any { .. },
     message: Some(
-        memory allocation of 16384 bytes failed,
+        already borrowed: BorrowMutError,
+```
+- Release result:
+```
+INFO - Depth: 200, Stack usage: 204800 bytes, Heap allocation: 1024, Memory - used: 204800; free: 0
+
+
+!! A panic occured in '/Users/georgik/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/alloc/src/alloc.rs', at line 418, column 13
+
+PanicInfo {
+    payload: Any { .. },
+    message: Some(
+        memory allocation of 1024 bytes failed,
 ```
 
-### 10-allock-stack-with-watchdog
+### 10-alloc-stack-with-watchdog
 - Allocator + Stack recursion + 10 seconds watchdog
 - Run `cargo run --example 10-allock-stack-with-watchdog`
 - Debug result: unresponsive board for short period of time until watchdog restarts it
@@ -165,3 +176,33 @@ Error:   × Broken pipe
 INFO - Stack depth: 3996, usage: 4091904 bytes
 Error:   × Broken pipe
 ```
+
+### 11-300kb-alloc-stack-recursion
+- Allocator recursion with Stack recursion
+- Run `cargo run --example 09-alloc-stack-recursion`
+- Debug result:
+```
+INFO - Depth: 109, Stack usage: 111616 bytes, Heap allocation: 1024, Memory - used: 111616; free: 195584
+INFO - Depth: 110, Stack usage: 112640 bytes, Heap allocation: 1024, Memory - used: 112640; free: 194560
+
+
+!! A panic occured in '.../.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/alloc/src/alloc.rs', at line 418, column 13
+
+PanicInfo {
+    payload: Any { .. },
+    message: Some(
+        memory allocation of 1024 bytes failed,
+```
+- Release result:
+```
+INFO - Depth: 222, Stack usage: 227328 bytes, Heap allocation: 1024, Memory - used: 227328; free: 79872
+Exception 'Load access fault' mepc=0x403801aa, mtval=0x00000000
+0x403801aa - _start_trap_rust_hal
+    at ??:??
+0x00000000 - _max_hart_id
+    at ??:??
+TrapFrame
+PC=0x403801aa         RA/x1=0x40380060      SP/x2=0x3fc81e6c      GP/x3=0x3fcb8ec0      TP/x4=0x00000000
+0x403801aa - _start_trap_rust_hal
+```
+
