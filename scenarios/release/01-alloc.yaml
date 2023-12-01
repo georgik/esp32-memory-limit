@@ -1,0 +1,5 @@
+name: Panic on memory allocation
+version: 1
+
+steps:
+    - wait-serial: "PanicInfo"

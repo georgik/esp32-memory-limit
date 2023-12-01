@@ -5,7 +5,7 @@ extern crate alloc;
 use core::mem::MaybeUninit;
 use alloc::vec;
 use esp_backtrace as _;
-use hal::{clock::ClockControl, peripherals::Peripherals, prelude::*, Delay};
+use hal::{clock::ClockControl, peripherals::Peripherals, prelude::*};
 
 use log::info;
 
@@ -27,8 +27,7 @@ fn main() -> ! {
     let peripherals = Peripherals::take();
     let system = peripherals.SYSTEM.split();
 
-    let clocks = ClockControl::max(system.clock_control).freeze();
-    let mut delay = Delay::new(&clocks);
+    let _clocks = ClockControl::max(system.clock_control).freeze();
 
     esp_println::logger::init_logger_from_env();
     info!("Memory - used: {}; free: {}", ALLOCATOR.used(), ALLOCATOR.free());
@@ -39,6 +38,5 @@ fn main() -> ! {
         test_vec[0] = 1; // Access the array to ensure it's not optimized out
         info!("Memory - allocated: {}, used: {}; free: {}", allocation_size, ALLOCATOR.used(), ALLOCATOR.free());
         allocation_size += 1024;
-        delay.delay_ms(50u32);
     }
 }
