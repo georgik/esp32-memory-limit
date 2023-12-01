@@ -5,7 +5,7 @@ extern crate alloc;
 use core::mem::MaybeUninit;
 use alloc::vec::Vec;
 use esp_backtrace as _;
-use hal::{clock::ClockControl, peripherals::Peripherals, prelude::*, Delay};
+use hal::{clock::ClockControl, peripherals::Peripherals, prelude::*};
 
 use log::{error, info};
 
@@ -27,8 +27,7 @@ fn main() -> ! {
     let peripherals = Peripherals::take();
     let system = peripherals.SYSTEM.split();
 
-    let clocks = ClockControl::max(system.clock_control).freeze();
-    let mut delay = Delay::new(&clocks);
+    let _clocks = ClockControl::max(system.clock_control).freeze();
 
     esp_println::logger::init_logger_from_env();
     info!("Logger is setup");
@@ -49,8 +48,6 @@ fn main() -> ! {
             // Handle allocation failure
         }
 
-
         allocation_size += 1024; // Increase the allocation size by 1 KB for the next iteration
-        delay.delay_ms(50u32);
     }
 }
