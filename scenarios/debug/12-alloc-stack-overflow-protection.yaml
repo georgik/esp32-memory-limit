@@ -2,4 +2,4 @@ name: Panic on memory allocation
 version: 1
 
 steps:
-    - wait-serial: "PanicInfo"
+    - wait-serial: "Possible Stack Overflow Detected"
